@@ -1,6 +1,6 @@
 Jupyter notebook will create dynamics model, optimize over it, apply controls to simulation, and plot resulting trajectories.
 
-Currently only ground phase before jump works, optimizing over jump dynamics has not been accomplished. This is because converting from ground state vector to rigid body angular and linear momentum involve a square root, making CasADi unhappy. I have not figured out a workaround yet. However, it is trivial to constrain the jump to be purely vertically oriented. In the jump shown below the final state in the ground stage is defined by hand, resulting in a jump.
+Currently only ground phase before jump works, optimizing over jump dynamics has not been accomplished. I have not figured out how to formulate the momentum transfer as an acceptable constraint for the optimizer. However, it is trivial to constrain the jump to be purely vertically oriented, which will be my next step. In the jump shown below the final state in the ground stage is defined by hand for demonstration.
 
 To save computation time the optimization timestep is 20 times the simulation timestep. The planned control inputs are linearly interpolated.
 
