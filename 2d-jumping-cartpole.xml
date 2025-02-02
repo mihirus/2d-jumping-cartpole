@@ -1,0 +1,47 @@
+<mujoco model="cartpole_2d_jumping">
+    <visual>
+        <map force="0.1" zfar="30"/>
+        <global fovy="80" offwidth="2560" offheight="1440" elevation="-20" azimuth="0"/>
+        <!-- Camera pointed towards positive y -->
+        <headlight ambient="0.15 0.15 0.15" specular="0 0 0" diffuse="0.6 0.6 0.6" />
+    </visual>
+
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1=".3 .5 .7" width="32" height="512"/>
+        <texture name="body" type="cube" builtin="flat" mark="cross" width="128" height="128" rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" markrgb="1 1 1" random="0.01"/>
+        <material name="body" texture="body" texuniform="true" rgba="0.8 0.6 .4 1"/>
+        <texture name="grid" type="2d" builtin="checker" width="512" height="512" rgb1=".1 .2 .3" rgb2=".4 .5 .6"/>
+        <material name="grid" texture="grid" texrepeat="1 1" texuniform="true" reflectance=".2"/>
+    </asset>
+
+    <worldbody>
+        <geom name="floor" pos="0 0 -0.025" size="0 0 .05" type="plane" material="grid" condim="4" friction="1 0.1 0.0001"/>
+        <body name="cart" pos="0 0 0.1">
+            <joint name="q1" type="slide" axis="1 0 0" />
+            <joint name="q2" type="slide" axis="0 1 0"/>
+            <joint name="q3" type="slide" axis="0 0 1" range="0.05 10" />
+            <inertial pos="0 0 0" mass="0.25" diaginertia="1e-4 1e-4 1e-4" />
+            <geom type="box" size="0.1 0.1 0.01" rgba="0 1 0 1" />
+            
+            <body name="pole" pos="0 0 0.2" >
+                <joint type="hinge" axis="0 1 0" pos="0 0 -0.2" name="q4"/>
+                <joint type="hinge" axis="-1 0 0" pos="0 0 -0.2" name="q5"/>
+                <inertial pos="0 0 0" mass="3e-3" diaginertia="1e-4 1e-4 1e-4" />
+                <geom type="cylinder" pos="0 0 -0.1" size="0.01 0.1" rgba="1 0 0 1" contype="0" conaffinity="0" />
+
+                <body name="bob" pos="0 0 0">
+                    <joint type="slide" pos="0 0 0" axis="0 0 1" name="q6" range="-0.1 0.3" />
+                    <inertial pos="0 0 0" mass="1" diaginertia="1e-4 1e-4 1e-4" />
+                    <geom type="sphere" size="0.02" rgba="0 0 1 1" contype="0" conaffinity="0" />
+                    <geom type="cylinder" pos="0 0 -0.15" size="0.005 0.15" rgba="0 0 1 1" contype="0" conaffinity="0" />
+                </body>
+            </body>
+        </body>
+    </worldbody>
+
+    <actuator>
+        <motor name="u1" gear="1 0 0 0 0 0" joint="q1"/>
+        <motor name="u2" gear="1 0 0 0 0 0" joint="q2"/>
+        <motor name="u3" gear="1 0 0 0 0 0" joint="q6"/>
+    </actuator>
+</mujoco>
